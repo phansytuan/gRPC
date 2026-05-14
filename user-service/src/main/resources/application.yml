@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: user-service
+
+  # H2 in-memory database (demo only — swap for real DB in production)
+  datasource:
+    url: jdbc:h2:mem:usersdb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop   # recreates schema on each boot
+    show-sql: true
+    open-in-view: false
+
+  # H2 web console at http://localhost:8081/h2-console (optional)
+  h2:
+    console:
+      enabled: true
+
+server:
+  port: 8081   # HTTP management port (actuator, H2 console)
+
+# ── gRPC server ──────────────────────────────────────────────
+grpc:
+  server:
+    port: 9090
+    # negotiation-type: tls    ← enable in production

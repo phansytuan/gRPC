@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: order-service
+
+server:
+  port: 8080   # REST API port
+
+# ── gRPC client channels ─────────────────────────────────────
+#
+# The key under grpc.client must match the name used in
+# @GrpcClient("user-service") in the Java source.
+#
+grpc:
+  client:
+    user-service:
+      address: static://localhost:9090   # host:port of user-service gRPC server
+      negotiation-type: plaintext        # switch to TLS in non-local environments

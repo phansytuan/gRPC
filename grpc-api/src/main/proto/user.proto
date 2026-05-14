@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+// ─────────────────────────────────────────────────────────────
+//  user.proto  —  shared contract for UserService
+//
+//  This file lives in grpc-api/src/main/proto and is compiled
+//  into Java stubs by the protobuf-maven-plugin.  Both
+//  user-service (server) and order-service (client) depend on
+//  the grpc-api JAR, so they always share the same contract.
+// ─────────────────────────────────────────────────────────────
+
+option java_package         = "com.example.grpc";
+option java_outer_classname = "UserProto";
+option java_multiple_files  = true;   // one class per message, cleaner imports
+
+package user;
+
+import "google/protobuf/empty.proto";
+
+// ── Messages ──────────────────────────────────────────────────
+
+message GetUserRequest {
+  string user_id = 1;
+}
+
+message UserResponse {
+  string user_id = 1;
+  string name    = 2;
+  string email   = 3;
+  int32  age     = 4;
+}
+
+message CreateUserRequest {
+  string name  = 1;
+  string email = 2;
+  int32  age   = 3;
+}
+
+message DeleteUserResponse {
+  bool   success = 1;
+  string message = 2;
+}
+
+// ── Service definition ────────────────────────────────────────
+
+service UserService {
+  // Unary: fetch a single user by ID
+  rpc GetUser(GetUserRequest) returns (UserResponse);
+
+  // Unary: create a new user
+  rpc CreateUser(CreateUserRequest) returns (UserResponse);
+
+  // Server-side streaming: stream all users to the client
+  rpc ListUsers(google.protobuf.Empty) returns (stream UserResponse);
+}
